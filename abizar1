@@ -1,0 +1,1318 @@
+/* =================================
+   TOMBOL BUKA UNDANGAN + MUSIK
+================================= */
+
+const openButton =
+  document.getElementById("openButton");
+
+const cover =
+  document.getElementById("cover");
+
+const content =
+  document.getElementById("content");
+
+const musik =
+  document.getElementById("musik");
+
+const musicButton =
+  document.getElementById("musicButton");
+
+
+openButton.addEventListener("click", function () {
+
+  cover.style.display = "none";
+
+  content.classList.remove("hidden");
+
+  musik.play()
+    .catch(function(error) {
+      console.log("Musik belum dapat dimainkan:", error);
+    });
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+});
+
+
+/* =================================
+   TOMBOL MUSIK
+================================= */
+
+let musicPlaying = true;
+
+musicButton.addEventListener("click", function () {
+
+  if (musicPlaying) {
+
+    musik.pause();
+
+    musicButton.innerHTML = "🔇";
+
+    musicPlaying = false;
+
+  } else {
+
+    musik.play();
+
+    musicButton.innerHTML = "🎵";
+
+    musicPlaying = true;
+
+  }
+
+});
+
+
+/* =================================
+   COUNTDOWN
+================================= */
+
+const targetDate =
+  new Date(
+    "2026-10-22T08:00:00+07:00"
+  ).getTime();
+
+
+function updateCountdown() {
+
+  const now =
+    new Date().getTime();
+
+  const distance =
+    targetDate - now;
+
+
+  if (distance <= 0) {
+
+    document.getElementById("days").innerText = "0";
+
+    document.getElementById("hours").innerText = "0";
+
+    document.getElementById("minutes").innerText = "0";
+
+    document.getElementById("seconds").innerText = "0";
+
+    return;
+
+  }
+
+
+  const days =
+    Math.floor(
+      distance /
+      (1000 * 60 * 60 * 24)
+    );
+
+
+  const hours =
+    Math.floor(
+      (distance %
+      (1000 * 60 * 60 * 24)) /
+      (1000 * 60 * 60)
+    );
+
+
+  const minutes =
+    Math.floor(
+      (distance %
+      (1000 * 60 * 60)) /
+      (1000 * 60)
+    );
+
+
+  const seconds =
+    Math.floor(
+      (distance %
+      (1000 * 60)) /
+      1000
+    );
+
+
+  document.getElementById("days")
+    .innerText = days;
+
+  document.getElementById("hours")
+    .innerText = hours;
+
+  document.getElementById("minutes")
+    .innerText = minutes;
+
+  document.getElementById("seconds")
+    .innerText = seconds;
+
+}
+
+
+updateCountdown();
+
+setInterval(
+  updateCountdown,
+  1000
+);
+
+
+/* =================================
+   ANIMASI SAAT SCROLL
+================================= */
+
+const reveals =
+  document.querySelectorAll(".reveal");
+
+
+function revealOnScroll() {
+
+  const windowHeight =
+    window.innerHeight;
+
+
+  reveals.forEach(function(element) {
+
+    const elementTop =
+      element.getBoundingClientRect().top;
+
+
+    if (
+      elementTop <
+      windowHeight - 100
+    ) {
+
+      element.classList.add("active");
+
+    }
+
+  });
+
+}
+
+
+window.addEventListener(
+  "scroll",
+  revealOnScroll
+);
+
+
+revealOnScroll();
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Cormorant Garamond", serif;
+  background: #f7f3e8;
+  color: #214331;
+  line-height: 1.8;
+}
+
+.hidden {
+  display: none;
+}
+
+
+/* =========================
+   COVER
+========================= */
+
+.cover {
+  min-height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+
+  padding: 30px;
+
+  color: white;
+
+  position: relative;
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 50% 30%,
+      #286447 0%,
+      #173f2a 45%,
+      #0c281a 100%
+    );
+}
+
+
+/* BULAN */
+
+.moon {
+  font-size: 70px;
+  color: #e4bd45;
+
+  animation:
+    moonFloat 4s ease-in-out infinite;
+}
+
+
+@keyframes moonFloat {
+
+  0%,100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-12px);
+  }
+
+}
+
+
+/* BINTANG */
+
+.stars,
+.stars::before,
+.stars::after {
+
+  content: "";
+
+  position: absolute;
+
+  width: 3px;
+  height: 3px;
+
+  background: #f4d875;
+
+  border-radius: 50%;
+
+  box-shadow:
+    40px 80px #f4d875,
+    100px 180px #f4d875,
+    180px 70px #f4d875,
+    250px 150px #f4d875,
+    330px 90px #f4d875,
+    420px 200px #f4d875,
+    520px 100px #f4d875,
+    620px 180px #f4d875,
+    720px 70px #f4d875,
+    800px 220px #f4d875,
+    900px 120px #f4d875,
+    1000px 250px #f4d875;
+
+  opacity: .5;
+
+  animation: twinkle 3s infinite alternate;
+}
+
+
+@keyframes twinkle {
+
+  from {
+    opacity: .2;
+  }
+
+  to {
+    opacity: .9;
+  }
+
+}
+
+
+.cover-content {
+
+  position: relative;
+  z-index: 5;
+
+  max-width: 650px;
+
+  animation: coverIn 1.5s ease;
+}
+
+
+@keyframes coverIn {
+
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+}
+
+
+.subtitle {
+
+  letter-spacing: 5px;
+  font-size: 15px;
+}
+
+
+.cover h1 {
+
+  font-family: "Playfair Display", serif;
+
+  font-size: clamp(42px, 9vw, 72px);
+
+  line-height: 1.15;
+
+  margin: 20px 0;
+
+  color: #f1cf61;
+
+  text-shadow:
+    0 4px 15px rgba(0,0,0,.4);
+}
+
+
+.ornament {
+
+  color: #d5ad38;
+
+  font-size: 20px;
+
+  margin: 20px;
+}
+
+
+.open-button {
+
+  margin-top: 30px;
+
+  border: none;
+
+  padding: 15px 30px;
+
+  border-radius: 50px;
+
+  background: #d4af37;
+
+  color: #193c29;
+
+  font-family: inherit;
+
+  font-size: 17px;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 8px 25px rgba(0,0,0,.3);
+
+  transition: .3s;
+
+}
+
+
+.open-button:hover {
+
+  transform: translateY(-4px) scale(1.03);
+
+  background: #f2d56c;
+
+}
+
+
+/* =========================
+   SECTION
+========================= */
+
+.section {
+
+  padding: 80px 20px;
+
+}
+
+
+.container {
+
+  max-width: 850px;
+
+  margin: auto;
+
+  text-align: center;
+
+}
+
+
+.section h2 {
+
+  font-family: "Playfair Display", serif;
+
+  color: #255c3c;
+
+  font-size: 32px;
+
+}
+
+
+.line {
+
+  width: 80px;
+
+  height: 3px;
+
+  background: #c79e2d;
+
+  margin: 20px auto 30px;
+
+}
+
+
+.gold {
+
+  background: #e1c154;
+}
+
+
+/* =========================
+   OPENING
+========================= */
+
+.opening {
+
+  background: #fffdf7;
+
+}
+
+
+.arabic {
+
+  font-size: 28px;
+
+  color: #286447;
+
+  margin-bottom: 25px;
+
+}
+
+
+/* =========================
+   PROFILE
+========================= */
+
+.profile {
+
+  background:
+    linear-gradient(
+      135deg,
+      #e9f0e8,
+      #f8f3e5
+    );
+
+}
+
+
+.islamic-symbol {
+
+  font-size: 45px;
+
+  color: #cba637;
+
+}
+
+
+.name {
+
+  font-family: "Playfair Display", serif;
+
+  color: #b08a21 !important;
+
+  font-size: clamp(38px, 8vw, 60px) !important;
+
+  line-height: 1.2;
+
+  margin: 20px 0;
+
+}
+
+
+.parents {
+
+  font-size: 20px;
+
+}
+
+
+/* =========================
+   COUNTDOWN
+========================= */
+
+.countdown-section {
+
+  background: #173f2a;
+
+  color: white;
+
+}
+
+
+.countdown-section h2 {
+
+  color: #f0d061;
+
+}
+
+
+.countdown {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  gap: 15px;
+
+  max-width: 650px;
+
+  margin: 35px auto 0;
+
+}
+
+
+.count-box {
+
+  padding: 20px 10px;
+
+  border-radius: 15px;
+
+  background:
+    rgba(255,255,255,.08);
+
+  border:
+    1px solid rgba(225,193,84,.5);
+
+  transition: .3s;
+
+}
+
+
+.count-box:hover {
+
+  transform:
+    translateY(-8px);
+
+  background:
+    rgba(255,255,255,.15);
+
+}
+
+
+.count-box span {
+
+  display: block;
+
+  font-size: 35px;
+
+  font-weight: bold;
+
+  color: #f0d061;
+
+}
+
+
+.count-box small {
+
+  color: white;
+
+}
+
+
+/* =========================
+   EVENT
+========================= */
+
+.event {
+
+  background: #fffdf7;
+
+}
+
+
+.event-card {
+
+  max-width: 650px;
+
+  margin: auto;
+
+  padding: 40px 25px;
+
+  background: white;
+
+  border-radius: 20px;
+
+  border-top: 5px solid #d4af37;
+
+  box-shadow:
+    0 15px 40px rgba(0,0,0,.08);
+
+  transition: .4s;
+
+}
+
+
+.event-card:hover {
+
+  transform:
+    translateY(-8px);
+
+  box-shadow:
+    0 20px 50px rgba(0,0,0,.13);
+
+}
+
+
+.event-icon {
+
+  font-size: 50px;
+
+  margin-bottom: 15px;
+
+}
+
+
+.event-card h3 {
+
+  font-size: 27px;
+
+  color: #286447;
+
+  margin-bottom: 20px;
+
+}
+
+
+.event-detail {
+
+  margin: 12px 0;
+
+  font-size: 18px;
+
+}
+
+
+/* =========================
+   LOCATION
+========================= */
+
+.location {
+
+  background: #eaf1e9;
+
+}
+
+
+.address {
+
+  font-size: 19px;
+
+  margin-bottom: 30px;
+
+}
+
+
+.button {
+
+  display: inline-block;
+
+  padding: 14px 27px;
+
+  border-radius: 50px;
+
+  text-decoration: none;
+
+  font-weight: bold;
+
+  margin: 7px;
+
+  transition: .3s;
+
+}
+
+
+.button:hover {
+
+  transform:
+    translateY(-4px);
+
+}
+
+
+.maps {
+
+  background: #286447;
+
+  color: white;
+
+}
+
+
+.whatsapp {
+
+  background: #25d366;
+
+  color: white;
+
+}
+
+
+/* =========================
+   RSVP
+========================= */
+
+.rsvp {
+
+  background: #fffdf7;
+
+}
+
+
+/* =========================
+   CLOSING
+========================= */
+
+.closing {
+
+  background: #173f2a;
+
+  color: white;
+
+}
+
+
+.closing .arabic {
+
+  color: #efd066;
+
+  margin-bottom: 30px;
+
+}
+
+
+.closing h3 {
+
+  margin-top: 35px;
+
+  color: #efd066;
+
+}
+
+
+.closing h4 {
+
+  font-size: 20px;
+
+  margin-top: 15px;
+
+  font-weight: normal;
+
+}
+
+
+/* =========================
+   MUSIC BUTTON
+========================= */
+
+.music-button {
+
+  position: fixed;
+
+  z-index: 999;
+
+  right: 20px;
+
+  bottom: 20px;
+
+  width: 50px;
+
+  height: 50px;
+
+  border: 2px solid #d4af37;
+
+  border-radius: 50%;
+
+  background: #173f2a;
+
+  color: white;
+
+  font-size: 20px;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 5px 20px rgba(0,0,0,.25);
+
+  animation:
+    musicSpin 3s linear infinite;
+
+}
+
+
+@keyframes musicSpin {
+
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+
+}
+
+
+/* =========================
+   SCROLL ANIMATION
+========================= */
+
+.reveal {
+
+  opacity: 0;
+
+  transform:
+    translateY(50px);
+
+  transition:
+    opacity 1s ease,
+    transform 1s ease;
+
+}
+
+
+.reveal.active {
+
+  opacity: 1;
+
+  transform:
+    translateY(0);
+
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+
+  text-align: center;
+
+  padding: 20px;
+
+  background: #0e2c1d;
+
+  color: #bbb;
+
+  font-size: 14px;
+
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
+
+  .section {
+
+    padding: 60px 18px;
+
+  }
+
+
+  .countdown {
+
+    grid-template-columns:
+      repeat(2, 1fr);
+
+  }
+
+
+  .count-box span {
+
+    font-size: 28px;
+
+  }
+
+
+  .arabic {
+
+    font-size: 23px;
+
+  }
+
+
+  .cover h1 {
+
+    font-size: 45px;
+
+  }
+
+}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Khitanan Zia Abizar Nurkhalid</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- MUSIK -->
+  <audio id="musik" loop>
+    <source src="musik/musik.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- TOMBOL MUSIK -->
+  <button id="musicButton" class="music-button">
+    🎵
+  </button>
+
+
+  <!-- =========================
+       COVER
+  ========================== -->
+
+  <section id="cover" class="cover">
+
+    <div class="stars"></div>
+
+    <div class="cover-content">
+
+      <div class="moon">☪</div>
+
+      <p class="subtitle">
+        UNDANGAN KHITANAN
+      </p>
+
+      <h1>
+        Zia Abizar<br>
+        Nurkhalid
+      </h1>
+
+      <div class="ornament">
+        ✦ ───── ✦
+      </div>
+
+      <p>
+        Dengan penuh rasa syukur dan kebahagiaan,
+        kami mengundang Bapak/Ibu/Saudara/i
+        untuk hadir dalam acara khitanan putra kami.
+      </p>
+
+      <button id="openButton" class="open-button">
+        💌 Buka Undangan
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       ISI UNDANGAN
+  ========================== -->
+
+  <main id="content" class="hidden">
+
+
+    <!-- PEMBUKA -->
+
+    <section class="section opening reveal">
+
+      <div class="container">
+
+        <div class="arabic">
+          بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ
+        </div>
+
+        <h2>
+          Assalamu'alaikum Wr. Wb.
+        </h2>
+
+        <div class="line"></div>
+
+        <p>
+          Dengan memohon rahmat dan ridho Allah SWT,
+          kami bermaksud menyelenggarakan acara
+          khitanan putra tercinta kami.
+        </p>
+
+        <p>
+          Merupakan suatu kehormatan dan kebahagiaan
+          bagi kami apabila Bapak/Ibu/Saudara/i
+          berkenan hadir serta memberikan doa restu.
+        </p>
+
+      </div>
+
+    </section>
+
+
+    <!-- NAMA ANAK -->
+
+    <section class="section profile reveal">
+
+      <div class="container">
+
+        <div class="islamic-symbol">
+          ☪
+        </div>
+
+        <p>
+          Putra tercinta dari
+        </p>
+
+        <h2 class="name">
+          Zia Abizar<br>
+          Nurkhalid
+        </h2>
+
+        <div class="parents">
+
+          <p>
+            <strong>Bapak Asep Sobar</strong>
+          </p>
+
+          <p>
+            &
+          </p>
+
+          <p>
+            <strong>Ibu Nurmahmudah (Enok)</strong>
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- COUNTDOWN -->
+
+    <section class="section countdown-section reveal">
+
+      <div class="container">
+
+        <h2>
+          Menuju Hari Bahagia
+        </h2>
+
+        <div class="line gold"></div>
+
+        <div class="countdown">
+
+          <div class="count-box">
+            <span id="days">0</span>
+            <small>Hari</small>
+          </div>
+
+          <div class="count-box">
+            <span id="hours">0</span>
+            <small>Jam</small>
+          </div>
+
+          <div class="count-box">
+            <span id="minutes">0</span>
+            <small>Menit</small>
+          </div>
+
+          <div class="count-box">
+            <span id="seconds">0</span>
+            <small>Detik</small>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- DETAIL ACARA -->
+
+    <section class="section event reveal">
+
+      <div class="container">
+
+        <h2>
+          Detail Acara
+        </h2>
+
+        <div class="line"></div>
+
+        <div class="event-card">
+
+          <div class="event-icon">
+            🕌
+          </div>
+
+          <h3>
+            Acara Khitanan
+          </h3>
+
+          <div class="event-detail">
+            📅
+            <span>
+              Kamis, 22 Oktober 2026
+            </span>
+          </div>
+
+          <div class="event-detail">
+            🕗
+            <span>
+              08.00 WIB s/d selesai
+            </span>
+          </div>
+
+          <div class="event-detail">
+            📍
+            <span>
+              Dusun Manis Blok Cilandak
+            </span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- LOKASI -->
+
+    <section class="section location reveal">
+
+      <div class="container">
+
+        <h2>
+          Lokasi Acara
+        </h2>
+
+        <div class="line"></div>
+
+        <p class="address">
+
+          Dusun Manis Blok Cilandak<br>
+          RT 001 / RW 001<br>
+          Desa Paninggaran<br>
+          Kecamatan Darma<br>
+          Kabupaten Kuningan
+
+        </p>
+
+        <a
+          href="https://www.google.com/maps/search/?api=1&query=Dusun+Manis+Blok+Cilandak+RT+001+RW+001+Desa+Paninggaran+Kecamatan+Darma+Kabupaten+Kuningan"
+          target="_blank"
+          class="button maps">
+
+          📍 Buka Google Maps
+
+        </a>
+
+      </div>
+
+    </section>
+
+
+    <!-- RSVP -->
+
+    <section class="section rsvp reveal">
+
+      <div class="container">
+
+        <h2>
+          Konfirmasi Kehadiran
+        </h2>
+
+        <div class="line gold"></div>
+
+        <p>
+          Mohon konfirmasi kehadiran melalui WhatsApp.
+        </p>
+
+        <!-- GANTI NOMOR DI BAWAH -->
+        <a
+          href="https://wa.me/628xxxxxxxxxx?text=Assalamu%27alaikum.%20InsyaAllah%20saya%20akan%20hadir%20di%20acara%20khitanan%20Zia%20Abizar%20Nurkhalid."
+          target="_blank"
+          class="button whatsapp">
+
+          💬 Konfirmasi WhatsApp
+
+        </a>
+
+      </div>
+
+    </section>
+
+
+    <!-- PENUTUP -->
+
+    <section class="section closing reveal">
+
+      <div class="container">
+
+        <div class="arabic">
+          وَالسَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللهِ وَبَرَكَاتُهُ
+        </div>
+
+        <p>
+          Atas kehadiran, doa dan restu
+          Bapak/Ibu/Saudara/i,
+          kami sekeluarga mengucapkan
+          terima kasih yang sebesar-besarnya.
+        </p>
+
+        <p>
+          Semoga Allah SWT memberikan keberkahan,
+          kesehatan dan kebahagiaan kepada kita semua.
+        </p>
+
+        <h3>
+          Keluarga Besar
+        </h3>
+
+        <h4>
+          Bapak Asep Sobar
+          <br>
+          &amp;
+          <br>
+          Ibu Nurmahmudah (Enok)
+        </h4>
+
+      </div>
+
+    </section>
+
+
+  </main>
+
+
+  <footer>
+
+    Khitanan Zia Abizar Nurkhalid
+    <br>
+    22 Oktober 2026
+
+  </footer>
+
+
+  <script src="script.js"></script>
+
+</body>
+</html>
